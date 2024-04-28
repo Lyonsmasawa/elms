@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Exams</title>
+</head>
+<body>
+    <h2>Exams Available</h2>
+    <ul>
+        {% for exam in exams %}
+            <li>{{ exam.subject.name }} - {{ exam.date }}</li>
+            <!-- You can add a link to start the exam here -->
+        {% endfor %}
+    </ul>
+</body>
+</html>

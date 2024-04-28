@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Submissions</title>
+</head>
+<body>
+    <h2>Student Submissions</h2>
+    <ul>
+        {% for submission in submissions %}
+            <li>{{ submission.student }} - {{ submission.subject }} - {{ submission.deadline }}</li>
+            <!-- Add a form to mark the submission -->
+        {% endfor %}
+    </ul>
+</body>
+</html>

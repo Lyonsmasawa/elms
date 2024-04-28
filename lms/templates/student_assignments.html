@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Assignments</title>
+</head>
+<body>
+    <h2>Assignments to Submit</h2>
+    <ul>
+        {% for assignment in assignments %}
+            <li>{{ assignment.subject.name }} - Deadline: {{ assignment.deadline }}</li>
+            <!-- You can add a link to submit the assignment here -->
+        {% endfor %}
+    </ul>
+</body>
+</html>
