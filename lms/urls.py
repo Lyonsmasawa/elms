@@ -37,9 +37,6 @@ urlpatterns = [
          views.mark_assignment, name='mark_assignment'),
 
 
-
-
-
     path('student/registration/', views.student_registration,
          name='student_registration'),
     path('student/registration/success/', views.student_registration_success,
