@@ -141,6 +141,7 @@ def create_assignment(request, subject_id):
         form = AssignmentCreationForm()
     return render(request, 'create_assignment.html', {'form': form, 'subject': subject})
 
+
 def submit_assignment(request, subject_id):
     subject = Subject.objects.get(id=subject_id)
     students = Student.objects.filter(classroom=subject.classroom)
@@ -157,6 +158,7 @@ def submit_assignment(request, subject_id):
     else:
         form = AssignmentSubmissionForm()
     return render(request, 'submit_assignment.html', {'form': form, 'subject': subject})
+
 
 def mark_assignment(request, assignment_id, student_id):
     assignment = Assignment.objects.get(id=assignment_id)
