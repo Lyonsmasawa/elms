@@ -43,13 +43,16 @@ class Notification(models.Model):
 
 class Assignment(models.Model):
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
-    student = models.ForeignKey(Student, on_delete=models.CASCADE)
     title = models.CharField(max_length=100)
     deadline = models.DateField()
     uploaded_at = models.DateTimeField(auto_now_add=True)
     file = models.FileField(upload_to='assignments/', blank=True, null=True)
     grade = models.CharField(max_length=10, blank=True, null=True)
     teacher_comment = models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        return self.title
+
 
 class Exam(models.Model):
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE)

@@ -41,3 +41,15 @@ class StudentRegistrationForm(UserCreationForm):
     class Meta:
         model = CustomUser
         fields = ['username', 'email', 'password1', 'password2']
+        
+        
+class AssignmentCreationForm(forms.ModelForm):
+    class Meta:
+        model = Assignment
+        fields = ['title', 'description', 'deadline', 'file']
+        
+
+class AssignmentSubmissionForm(forms.ModelForm):
+    class Meta:
+        model = Assignment
+        fields = ['file']

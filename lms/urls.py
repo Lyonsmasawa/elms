@@ -31,6 +31,13 @@ urlpatterns = [
          views.update_lesson_plan, name='update_lesson_plan'),
     path('teacher/approve_student/<int:student_id>/',
          views.approve_student, name='approve_student'),
+    path('teacher/create_assignment/<int:subject_id>/',
+         views.create_assignment, name='create_assignment'),
+    path('teacher/mark_assignment/<int:assignment_id>/<int:student_id>/',
+         views.mark_assignment, name='mark_assignment'),
+
+
+
 
 
     path('student/registration/', views.student_registration,
@@ -41,4 +48,7 @@ urlpatterns = [
          views.view_subjects, name='view_subjects'),
     path('student/view_schedule/<int:class_id>/',
          views.view_schedule, name='view_schedule'),
+    path('student/submit_assignment/<int:assignment_id>/',
+         views.submit_assignment, name='submit_assignment'),
+
 ]
