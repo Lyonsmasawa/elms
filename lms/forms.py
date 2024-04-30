@@ -3,38 +3,41 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from .models import *
 
-class StudentRegistrationForm(UserCreationForm):
-    class Meta:
-        model = User
-        fields = ['username', 'password1', 'password2']
+
+class NotificationForm(forms.Form):
+    message = forms.CharField(widget=forms.Textarea)
+
 
 class TeacherRegistrationForm(UserCreationForm):
     class Meta:
-        model = User
-        fields = ['username', 'password1', 'password2']
+        model = CustomUser
+        fields = ['username', 'email', 'password1', 'password2']
 
-class ParentRegistrationForm(UserCreationForm):
+
+class AnnouncementForm(forms.ModelForm):
     class Meta:
-        model = User
-        fields = ['username', 'password1', 'password2']
-
-class LoginForm(forms.Form):
-    username = forms.CharField()
-    password = forms.CharField(widget=forms.PasswordInput)
+        model = Announcement
+        fields = ['message']
 
 
-class MaterialUploadForm(forms.ModelForm):
+class ScheduleForm(forms.ModelForm):
     class Meta:
-        model = Material
-        fields = ['subject', 'file']
-        
-        
+        model = Schedule
+        fields = ['class_name', 'subject', 'date', 'time']
+
+
 class WeeklyPlanForm(forms.ModelForm):
     class Meta:
-        model = WeeklyPlan
-        fields = ['week', 'topics']
+        model = Subject
+        fields = ['weekly_plan']
 
 class LessonPlanForm(forms.ModelForm):
     class Meta:
-        model = LessonPlan
-        fields = ['date', 'topic', 'objectives', 'activities']
+        model = Subject
+        fields = ['lesson_plan']
+        
+        
+class StudentRegistrationForm(UserCreationForm):
+    class Meta:
+        model = CustomUser
+        fields = ['username', 'email', 'password1', 'password2']

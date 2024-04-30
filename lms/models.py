@@ -1,93 +1,70 @@
+from django.contrib.auth.models import AbstractUser
 from django.db import models
-from django.contrib.auth.models import User
 
+class CustomUser(AbstractUser):
+    is_admin = models.BooleanField(default=False)
+    is_teacher = models.BooleanField(default=False)
+    is_student = models.BooleanField(default=False)
+    is_approved = models.BooleanField(default=False)
+
+class Class(models.Model):
+    name = models.CharField(max_length=100)
 
 class Subject(models.Model):
     name = models.CharField(max_length=100)
-
-    def __str__(self):
-        return self.name
-
-
-class Student(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    subjects = models.ManyToManyField(Subject)
-
-    def __str__(self):
-        return self.user.username
+    class_name = models.ForeignKey(Class, on_delete=models.CASCADE)
+    weekly_plan = models.TextField(blank=True, null=True)
+    lesson_plan = models.TextField(blank=True, null=True)
 
 
 class Teacher(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
+    classes_taught = models.ManyToManyField(Class)
+    subjects_taught = models.ManyToManyField(Subject)
 
-    def __str__(self):
-        return self.user.username
+class Student(models.Model):
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
+    class_enrolled = models.ForeignKey(Class, on_delete=models.CASCADE)
 
-
-class Parent(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return self.user.username
-
-
-class Exam(models.Model):
-    subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
-    date = models.DateField()
-    # Add more fields as needed
-
-
-class Assignment(models.Model):
-    subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
-    deadline = models.DateField()
-    # Add more fields as needed
-
-
-class Essay(models.Model):
-    subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
-    # Add more fields as needed
-
-
-class Material(models.Model):
-    subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
-    file = models.FileField(upload_to='materials/')
-    uploaded_at = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return f"{self.subject} - {self.file.name}"
-
-
-class WeeklyPlan(models.Model):
-    week = models.IntegerField()
-    topics = models.TextField()
-
-    def __str__(self):
-        return f"Week {self.week}"
-
-
-class LessonPlan(models.Model):
-    date = models.DateField()
-    topic = models.CharField(max_length=100)
-    objectives = models.TextField()
-    activities = models.TextField()
-
-    def __str__(self):
-        return self.topic
-
-
-class Class(models.Model):
-    subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
+class Announcement(models.Model):
     teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE)
+    message = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+class Schedule(models.Model):
+    class_name = models.ForeignKey(Class, on_delete=models.CASCADE)
+    subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
     date = models.DateField()
     time = models.TimeField()
-
-    def __str__(self):
-        return f"{self.subject} - {self.date} - {self.time}"
-
 
 class Notification(models.Model):
     message = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
 
-    def __str__(self):
-        return self.message
+class Assignment(models.Model):
+    subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
+    student = models.ForeignKey(Student, on_delete=models.CASCADE)
+    title = models.CharField(max_length=100)
+    deadline = models.DateField()
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+    file = models.FileField(upload_to='assignments/', blank=True, null=True)
+    grade = models.CharField(max_length=10, blank=True, null=True)
+    teacher_comment = models.TextField(blank=True, null=True)
+
+class Exam(models.Model):
+    subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
+    title = models.CharField(max_length=100)
+    date = models.DateField()
+
+class ExamSubmission(models.Model):
+    exam = models.ForeignKey(Exam, on_delete=models.CASCADE)
+    student = models.ForeignKey(Student, on_delete=models.CASCADE)
+    file = models.FileField(upload_to='exam_submissions/')
+    submitted_at = models.DateTimeField(auto_now_add=True)
+    grade = models.CharField(max_length=10, blank=True, null=True)
+    teacher_comment = models.TextField(blank=True, null=True)
+
+class Material(models.Model):
+    subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
+    file = models.FileField(upload_to='materials/')
+    uploaded_at = models.DateTimeField(auto_now_add=True)
