@@ -31,23 +31,24 @@ class WeeklyPlanForm(forms.ModelForm):
         model = Subject
         fields = ['weekly_plan']
 
+
 class LessonPlanForm(forms.ModelForm):
     class Meta:
         model = Subject
         fields = ['lesson_plan']
-        
-        
+
+
 class StudentRegistrationForm(UserCreationForm):
     class Meta:
         model = CustomUser
         fields = ['username', 'email', 'password1', 'password2']
-        
-        
+
+
 class AssignmentCreationForm(forms.ModelForm):
     class Meta:
         model = Assignment
-        fields = ['title', 'description', 'deadline', 'file']
-        
+        fields = ['title', 'deadline', 'file']
+
 
 class AssignmentSubmissionForm(forms.ModelForm):
     class Meta:
